@@ -32,12 +32,12 @@ distribution.
 #define REDIRECT_MODE2 0x02
 
 typedef struct {
-	FILE *fp;							
+	FILE *fp;
 	unsigned int first_index;
-	unsigned int last_index;	
-	unsigned int cur_start_ip;			
-	unsigned int cur_end_ip;			
-	unsigned int cur_end_ip_offset;	
+	unsigned int last_index;
+	unsigned int cur_start_ip;
+	unsigned int cur_end_ip;
+	unsigned int cur_end_ip_offset;
 }	ip_locator;
 
 unsigned int str2ip(const char *cs)
@@ -64,7 +64,7 @@ char *ip2str(unsigned int ip, char *buf)
 	return buf;
 }
 
-/** 
+/**
  *	convert 1-4 bytes to an integer, little-endian.
  */
 static unsigned int bytes2integer(const unsigned char *ip, int count)
@@ -72,7 +72,7 @@ static unsigned int bytes2integer(const unsigned char *ip, int count)
 	int i;
 	unsigned int ret;
 
-	if(count < 1 || count > 4) 
+	if(count < 1 || count > 4)
 		return 0;
 	ret = ip[0];
 	for (i = 0; i < count; i++)
@@ -82,7 +82,7 @@ static unsigned int bytes2integer(const unsigned char *ip, int count)
 
 /**
  *	read 'len' of bytes to 'buf', from 'fp' at 'offset'
- */ 
+ */
 static void read_from_file(FILE *fp, unsigned int offset, unsigned char *buf, int len)
 {
 	if(fseek(fp, offset, SEEK_SET)) {
@@ -124,7 +124,7 @@ static char *get_area_addr(FILE *fp,unsigned int offset)
 			ret = get_string(fp,p);
 		else
 			ret = "";
-	} else 
+	} else
 		ret = get_string(fp,offset);
 	return ret;
 }
@@ -183,7 +183,7 @@ static void set_ip_range(int rec_no, ip_locator *f)
 	f->cur_end_ip = bytes2integer(buf, 4);
 }
 
-/** 
+/**
  *	get IP location, return -1 if error
  */
 int get_ip_addr(unsigned int ip, unsigned char *addr, int len,
@@ -194,7 +194,7 @@ int get_ip_addr(unsigned int ip, unsigned char *addr, int len,
 	unsigned char buf[4];
 
 	if ((f.fp=fopen(DEFAULT_IPDB_FILE,"rb")) == NULL) {
-		fprintf(stderr, "Unable to open file: %s\n", 
+		fprintf(stderr, "Unable to open file: %s\n",
 			DEFAULT_IPDB_FILE);
 		return -1;
 	}
@@ -225,7 +225,7 @@ int get_ip_addr(unsigned int ip, unsigned char *addr, int len,
 		set_ip_range(R, &f);
 	if (f.cur_start_ip <= ip && ip <= f.cur_end_ip)
 		get_addr(f.fp, f.cur_end_ip_offset, addr, len);
-	else	
+	else
 		*addr = '\0';
 	/**/
 	if(range_start_ip !=NULL)
@@ -244,7 +244,7 @@ void get_version(unsigned char *version, int len)
 
 /**
  * Demo: a command tool to query ip address
- */ 
+ */
 
 #if 1
 int main(int argc, char **argv)
@@ -259,9 +259,9 @@ int main(int argc, char **argv)
 	get_version(addr,256);
 	printf("%s\n",addr);
 	get_ip_addr(str2ip(argv[1]), addr, 256, &start_ip, &end_ip);
-	printf("´ËIP %s ÊôÓÚ %s\n",argv[1], addr);
+	printf("æ­¤IP %s å±äº %s\n",argv[1], addr);
 	ip2str(start_ip,addr);
-	printf("ËùÔÚÍø¶Î: %s - ", addr);
+	printf("æ‰€åœ¨ç½‘æ®µ: %s - ", addr);
 	ip2str(end_ip,addr);
 	printf("%s\n", addr);
 	return 0;

@@ -45,8 +45,8 @@ IPLocator::IPLocator(const string& ipdb_name)
 	index_count = (last_index - first_index) / 7 + 1;
 }
 
-IPLocator::~IPLocator() 
-{ 
+IPLocator::~IPLocator()
+{
 	ipdb.close();
 }
 
@@ -56,7 +56,7 @@ string IPLocator::getVersion()
 	std::ostringstream oss;
 	oss << this->index_count;
 	string total_item(oss.str());
-	version =  version + " ¼ÇÂ¼×ÜÊý£º" + total_item + "Ìõ";
+	version =  version + " è®°å½•æ€»æ•°ï¼š" + total_item + "æ¡";
 	return version;
 }
 
@@ -89,7 +89,7 @@ string IPLocator::getIpAddr(unsigned int ip)
 	if(ip >= this->cur_start_ip && ip <= this->cur_end_ip)
 		addr = this->getAddr(this->cur_start_ip_offset);
 	else
-		addr = "Î´ÕÒµ½¸ÃIPµÄµØÖ·";
+		addr = "æœªæ‰¾åˆ°è¯¥IPçš„åœ°å€";
 	return addr;
 }
 
@@ -111,7 +111,7 @@ string IPLocator::getAddr(streamsize offset)
 	unsigned char buf[4];
 	unsigned int country_offset;
 	string country_addr,area_addr;
-	
+
 	this->readFromFile(offset+4, buf,4);
 	byte = buf[0];
 	if(0x01 == byte) {
@@ -153,7 +153,7 @@ string IPLocator::getAreaAddr(streamsize offset)
 			area_addr = this->readStringFromFile(p);
 		else
 			area_addr = "";
-	} else 
+	} else
 		area_addr = this->readStringFromFile(offset);
 	return area_addr;
 
@@ -177,7 +177,7 @@ void IPLocator::readFromFile( streamsize offset, unsigned char *buf, int len)
 }
 
 string IPLocator::readStringFromFile(streamsize offset)
-{	
+{
 	char ch;
 	string str;
 	ipdb.seekg(offset);
@@ -217,7 +217,7 @@ unsigned int IPLocator::bytes2integer(unsigned char *ip, int count)
 	int i;
 	unsigned int ret;
 
-	if(count < 1 || count > 4) 
+	if(count < 1 || count > 4)
 		return 0;
 	ret = ip[0];
 	for (i = 0; i < count; i++)
@@ -234,16 +234,16 @@ int main(int argc, char **argv)
 	string ip("202.200.225.52");
 	IPLocator ipl("QQWry.dat");
 	if(argc != 2 ) {
-		cout<< ipl.getVersion() << endl 
+		cout<< ipl.getVersion() << endl
 			<< ipl.getIpAddr(ip) << endl
-			<< "ËùÔÚÍø¶Î: " << ipl.getIpRange(ip) << endl;
+			<< "æ‰€åœ¨ç½‘æ®µ: " << ipl.getIpRange(ip) << endl;
 	} else {
 		ip = argv[1];
-		cout<< ipl.getVersion() << endl 
+		cout<< ipl.getVersion() << endl
 			<< ipl.getIpAddr(ip) << endl
-			<< "ËùÔÚÍø¶Î: " << ipl.getIpRange(ip) << endl;
+			<< "æ‰€åœ¨ç½‘æ®µ: " << ipl.getIpRange(ip) << endl;
 	}
 	return 0;
 }
 
-#endif 
+#endif

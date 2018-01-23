@@ -259,9 +259,9 @@ int main(int argc, char **argv)
 	get_version(addr, 256);
 	printf("\n%s\n",addr);
 	get_ip_addr(str2ip(argv[1]), addr, 256, &start_ip, &end_ip);
-	printf("´ËIP %s ÊôÓÚ %s\n", argv[1], addr);
+	printf("æ­¤IP %s å±äº %s\n", argv[1], addr);
 	ip2str(start_ip,addr);
-	printf("ËùÔÚÍø¶Î: %s - ", addr);
+	printf("æ‰€åœ¨ç½‘æ®µ: %s - ", addr);
 	ip2str(end_ip,addr);
 	printf("%s\n", addr);
 	return 0;

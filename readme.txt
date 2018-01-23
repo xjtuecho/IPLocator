@@ -1,37 +1,37 @@
-	IPLocator �ĵ�
+	IPLocator 文档
 		-- http://spadger.blog.com.cn
-    ��ˮľ���濴��������PythonдIP���ݿ�Ĳ�ѯ����������Դ
-����ȴһֱ���Բ�ͨ��������������IP���ݿ��ʽ�ĵ��������ĵ�˵
-����д����󲿷ִ��룬��IPLocator.py��ʵ����IP��ַ�Ĳ�ѯ��д
-�������δ�������Ƿֱ������C���Ժ�C++ʵ��.
+    在水木上面看到有人用Python写IP数据库的查询程序，下载其源
+代码却一直调试不通，于是找来纯真IP数据库格式文档，按照文档说
+明重写了其大部分代码，即IPLocator.py，实现了IP地址的查询，写
+完后意犹未尽，于是分别给出了C语言和C++实现.
 
-��Ҫ�ļ��嵥:
+主要文件清单:
 1.IPLocator.py
-  IP���ݿ��ѯPython����ʵ��
+  IP数据库查询Python语言实现
 2.IPLocator.h & IPLocator.c
-  IP���ݿ��ѯC����ʵ��
+  IP数据库查询C语言实现
 3.IPLocator.hpp & IPLocator.cpp
-  IP���ݿ��ѯC++����ʵ��
+  IP数据库查询C++语言实现
 4.QQWry.dat
-  ɺ�����IP���ݿ� 20061105 ��¼������50424��
-5.����IP���ݿ��ʽ���.htm
-  ����LumaQQ�������ĵ�
+  珊瑚虫版IP数据库 20061105 记录总数：50424条
+5.纯真IP数据库格式详解.htm
+  来自LumaQQ开发者文档
 6.readme.txt
-  ���ĵ�
+  本文档
 
-�÷�����:
+用法描述:
 1.Python
     IPL = IPLocator( "QQWry.dat" )
     address = IPL.getIpAddr( IPL.str2ip("202.200.225.52") )
-  ����ο�IPLocator.py�е�Demo
-2.C����
+  具体参考IPLocator.py中的Demo
+2.C语言
   int get_ip_addr(unsigned int ip, unsigned char *addr, int len, 
 	unsigned int *range_start_ip, unsigned int *range_end_ip);
-  ip: ����ѯ��IP
-  addr: ��Ž���Ļ�����
-  len: ��Ž���Ļ���������
-  range_start_ip: IP����IP�ε���ʼ,�������Ҫ��ΪNULL
-  range_start_ip: IP����IP�εĽ���,�������Ҫ��ΪNULL
+  ip: 待查询的IP
+  addr: 存放结果的缓冲区
+  len: 存放结果的缓冲区长度
+  range_start_ip: IP所在IP段的起始,如果不需要设为NULL
+  range_start_ip: IP所在IP段的结束,如果不需要设为NULL
 3.C++
   IPLocator ipl("QQWry.dat");
   string ip("202.200.225.52");
@@ -39,14 +39,14 @@
        << ipl.getIpAddr(ip) << endl
        << ipl.getIpRange(ip) << endl;
 
-    ���������Ҫ������ͬ���ļ�������Ĺ��̼��ɣ�����ϸ����ֱ��
-�Ķ�Դ����
-    ��������� ZLib ����֤�������κ��˿������κ�Ŀ��ʹ�ñ�����
-�ɴ���ɵ�һ�к����ʹ���߳е������������߲��е��κ���ʽ�ĵ���
-�����Σ�����֤ϸ�����Դ�ļ������������ʹ�ñ�������Ĭ�Ͻ���
-ZLib ����֤��
-    �κ���������飬Bug���棬Job Offer�������Money���� ��ֱ��
-���ҵ�Blog���Ի��� mailto:echo.xjtu@gmail.com
+    按照你的需要，将不同的文件加入你的工程即可，更多细节请直接
+阅读源程序。
+    本程序基于 ZLib 许可证发布，任何人可以以任何目的使用本程序，
+由此造成的一切后果由使用者承担，本程序作者不承担任何形式的担保
+和责任，许可证细节详见源文件顶部。如果你使用本程序，则默认接受
+ZLib 许可证。
+    任何意见，建议，Bug报告，Job Offer，多余的Money…… 请直接
+在我的Blog留言或者 mailto:echo.xjtu@gmail.com
     Good Luck!
                                 spadger <echo.xjtu@gmail.com>
-                                2008-2-20 22:49 �ڼ���
+                                2008-2-20 22:49 于家中
