@@ -1,11 +1,11 @@
 #! /usr/bin/env python
-# -*- coding: gbk -*-
 
 """ IPLocator: locate IP in the QQWry.dat.
     Usage:
         python IPLocator.py <ip>
-    Create and test with Python 2.2.3.
-    spadger@bmy <echo.xjtu@gmail.com> 2008-2-19
+    Create and test under Python 2.2.3  2008-2-19
+    update to Python 3.4.1 2018.1.27
+    spadger@bmy <echo.xjtu@gmail.com>
 """
 
 import socket,string,struct,sys
@@ -15,11 +15,11 @@ class IPLocator :
         self.ipdb = open( ipdbFile, "rb" )
         str = self.ipdb.read( 8 )
         (self.firstIndex,self.lastIndex) = struct.unpack('II',str)
-        self.indexCount = (self.lastIndex - self.firstIndex)/7+1
-        print self.getVersion()," ¼ÍÂ¼×ÜÊı: %d Ìõ "%(self.indexCount)
+        self.indexCount = (self.lastIndex - self.firstIndex)//7+1
+        print("%s çºªå½•æ€»æ•°: %d æ¡ " % (self.getVersion(), self.indexCount) )
 
     def getVersion(self):
-        s = self.getIpAddr(0xffffff00L)
+        s = self.getIpAddr(0xffffff00)
         return s
 
     def getAreaAddr(self,offset=0):
@@ -70,8 +70,8 @@ class IPLocator :
             self.ipdb.seek( offset )
             buf = self.ipdb.read( 7 )
             (ip,of1,of2) = struct.unpack("IHB",buf)
-            print "%d\t%s\t%s" %(index, self.ip2str(ip), \
-                self.getAddr( of1 + (of2 << 16) ) )
+            print("%d\t%s\t%s" %(index, self.ip2str(ip), \
+                self.getAddr( of1 + (of2 << 16) ) ) )
 
     def setIpRange(self,index):
         offset = self.firstIndex + index * 7
@@ -81,13 +81,13 @@ class IPLocator :
         self.curEndIpOffset = of1 + (of2 << 16)
         self.ipdb.seek( self.curEndIpOffset )
         buf = self.ipdb.read( 4 )
-        (self.curEndIp,) = struct.unpack("I",buf)
+        (self.curEndIp,) = struct.unpack("I", buf)
 
     def getIpAddr(self,ip):
         L = 0
         R = self.indexCount - 1
         while L < R-1:
-            M = (L + R) / 2
+            M = (L + R) // 2
             self.setIpRange(M)
             if ip == self.curStartIp:
                 L = M
@@ -98,12 +98,12 @@ class IPLocator :
                 R = M
         self.setIpRange( L )
         #version information,255.255.255.X,urgy but useful
-        if ip&0xffffff00L == 0xffffff00L:
+        if ip&0xffffff00 == 0xffffff00:
             self.setIpRange( R )
         if self.curStartIp <= ip <= self.curEndIp:
             address = self.getAddr( self.curEndIpOffset )
         else:
-            address = "Î´ÕÒµ½¸ÃIPµÄµØÖ·"
+            address = "æœªæ‰¾åˆ°è¯¥IPçš„åœ°å€"
         return address
 
     def getIpRange(self,ip):
@@ -115,23 +115,23 @@ class IPLocator :
     def getString(self,offset = 0):
         if offset :
             self.ipdb.seek( offset )
-        str = ""
+        str = b""
         ch = self.ipdb.read( 1 )
-        (byte,) = struct.unpack('B',ch)
+        (byte,) = struct.unpack('B', ch)
         while byte != 0:
             str = str + ch
             ch = self.ipdb.read( 1 )
-            (byte,) = struct.unpack('B',ch)
-        return str
+            (byte,) = struct.unpack('B', ch)
+        return str.decode(encoding='gbk')  # QQWry.dat is GBK encoding.
 
     def ip2str(self,ip):
-        return str(ip>>24)+'.'+str((ip>>16)&0xffL)+'.' \
-            +str((ip>>8)&0xffL)+'.'+str(ip&0xffL)
+        return str(ip>>24)+'.'+str((ip>>16)&0xff)+'.' \
+            +str((ip>>8)&0xff)+'.'+str(ip&0xff)
 
     def str2ip(self,s):
-        (ip,) = struct.unpack('L',socket.inet_aton(s))
-        return ((ip>>24)&0xffL)|((ip&0xffL)<<24) \
-            |((ip>>8)&0xff00L)|((ip&0xff00L)<<8)
+        (ip,) = struct.unpack('L', socket.inet_aton(s))
+        return ((ip>>24)&0xff)|((ip&0xff)<<24) \
+            |((ip>>8)&0xff00)|((ip&0xff00)<<8)
 
     def getLong3(self,offset = 0):
         if offset :
@@ -145,13 +145,13 @@ def main():
     IPL = IPLocator( "QQWry.dat" )
     ip = ""
     if len(sys.argv) != 2:
-        print 'Usage: python IPLocator.py <IP>'
+        print('Usage: python IPLocator.py <IP>')
         return
     else:
         ip = sys.argv[1]
     address = IPL.getIpAddr( IPL.str2ip(ip) )
     range = IPL.getIpRange( IPL.str2ip(ip) )
-    print "´ËIP %s ÊôÓÚ %s\nËùÔÚÍø¶Î: %s" % (ip,address, range)
+    print("æ­¤IP %s å±äº %s\næ‰€åœ¨ç½‘æ®µ: %s" % (ip,address, range))
 
 
 if __name__ == "__main__" :
