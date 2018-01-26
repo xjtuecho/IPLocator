@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# -*- coding: gbk -*-
 
 """ IPLocator: locate IP in the QQWry.dat.
     Usage:
@@ -15,7 +16,7 @@ class IPLocator :
         str = self.ipdb.read( 8 )
         (self.firstIndex,self.lastIndex) = struct.unpack('II',str)
         self.indexCount = (self.lastIndex - self.firstIndex)/7+1
-        print self.getVersion()," çºªå½•æ€»æ•°: %d æ¡ "%(self.indexCount)
+        print self.getVersion()," ¼ÍÂ¼×ÜÊı: %d Ìõ "%(self.indexCount)
 
     def getVersion(self):
         s = self.getIpAddr(0xffffff00L)
@@ -102,7 +103,7 @@ class IPLocator :
         if self.curStartIp <= ip <= self.curEndIp:
             address = self.getAddr( self.curEndIpOffset )
         else:
-            address = "æœªæ‰¾åˆ°è¯¥IPçš„åœ°å€"
+            address = "Î´ÕÒµ½¸ÃIPµÄµØÖ·"
         return address
 
     def getIpRange(self,ip):
@@ -150,7 +151,7 @@ def main():
         ip = sys.argv[1]
     address = IPL.getIpAddr( IPL.str2ip(ip) )
     range = IPL.getIpRange( IPL.str2ip(ip) )
-    print "æ­¤IP %s å±äº %s\næ‰€åœ¨ç½‘æ®µ: %s" % (ip,address, range)
+    print "´ËIP %s ÊôÓÚ %s\nËùÔÚÍø¶Î: %s" % (ip,address, range)
 
 
 if __name__ == "__main__" :
