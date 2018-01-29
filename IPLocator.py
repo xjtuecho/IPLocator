@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 """ IPLocator: locate IP in the QQWry.dat.
     Usage:
@@ -129,7 +129,7 @@ class IPLocator :
             +str((ip>>8)&0xff)+'.'+str(ip&0xff)
 
     def str2ip(self,s):
-        (ip,) = struct.unpack('L', socket.inet_aton(s))
+        (ip,) = struct.unpack('I', socket.inet_aton(s))
         return ((ip>>24)&0xff)|((ip&0xff)<<24) \
             |((ip>>8)&0xff00)|((ip&0xff00)<<8)
 
