@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 """ IPLocator: locate IP in the QQWry.dat.
     Usage:
@@ -16,7 +16,7 @@ class IPLocator :
         str = self.ipdb.read( 8 )
         (self.firstIndex,self.lastIndex) = struct.unpack('II',str)
         self.indexCount = (self.lastIndex - self.firstIndex)//7+1
-        print("%s 纪录总数: %d 条 " % (self.getVersion(), self.indexCount) )
+       #print("%s 纪录总数: %d 条 " % (self.getVersion(), self.indexCount) )
 
     def getVersion(self):
         s = self.getIpAddr(0xffffff00)
